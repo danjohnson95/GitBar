@@ -1,0 +1,23 @@
+{
+    "name": "danj/gitbar",
+    "description": "Quickly and easily manage your Git repository from your staging area",
+    "keywords": ["gitbar","toolbar", "git"],
+    "homepage": "https://github.com/danjohnson95/GitBar",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Dan Johnson",
+            "email": "dan@danj.eu",
+            "homepage": "http://danj.eu",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "laravel/framework": "5.1.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Danj\\Gitbar": "src"
+        }
+    }
+}
