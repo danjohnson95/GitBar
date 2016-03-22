@@ -35,4 +35,4 @@ GitBar uses some routes for grabbing branches and checking them out. The default
 ###And that's it!
 Issues and Pull Requests are welcome.
 
-If this package makes development for you or your team, donations are greatly appreciated! :beer:
+If this package makes development easier for you or your team, donations are greatly appreciated! :beer:
