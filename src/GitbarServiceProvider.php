@@ -22,6 +22,9 @@ class GitbarServiceProvider extends \Illuminate\Support\ServiceProvider{
 			return;
 		}
 
+        //$jsModified = $this->getModifiedTime('js');
+        //$cssModified = $this->getModifiedTime('css');
+
 		$this->loadViewsFrom(__DIR__.'/resources/views/', 'gitbar');
 
 		$routeConfig = [
@@ -30,11 +33,15 @@ class GitbarServiceProvider extends \Illuminate\Support\ServiceProvider{
         ];
 
         $this->app['router']->group($routeConfig, function($router) {
-            $router->get('branches', 'GitbarController@branches');
-            $router->post('checkout/{branch}', 'GitbarController@checkout');
+            $router->get('branches', ['uses' => 'GitbarController@branches', 'as' => 'gitbar.branches']);
+            $router->post('checkout/{branch}', ['uses' => 'GitbarController@checkout', 'as' => 'gitbar.checkout']);
+            $router->get('css', ['uses' => 'GitbarController@css', 'as' => 'gitbar.css']);
+            $router->get('js', ['uses' => 'GitbarController@js', 'as' => 'gitbar.js']);
+
             $router->get('test', 'GitbarController@outputBar');
         });
 
+        $this->app['Illuminate\Contracts\Http\Kernel']->pushMiddleware('Danj\Gitbar\Middleware');
 
 	}
 

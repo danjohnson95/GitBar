@@ -3,8 +3,8 @@
 namespace Danj\Gitbar;
 
 use Illuminate\Routing\Controller,
-	Config,
-	Response;
+	Illuminate\Http\Response,
+	Config;
 
 class GitbarController extends Controller{
 
@@ -83,5 +83,19 @@ class GitbarController extends Controller{
 			'Branches'		=> $Branches,
 			'CurrentBranch' => $CurrentBranch
 		]);
+	}
+
+	public function css(){
+		$content = file_get_contents(__DIR__.'/resources/css/gitbar.css');
+		return new Response(
+			$content, 200, ['Content-Type' => 'text/css']
+		);
+	}
+
+	public function js(){
+		$content = file_get_contents(__DIR__.'/resources/js/gitbar.js');
+		return new Response(
+			$content, 200, ['Content-Type' => 'text/javascript']
+		);
 	}
 }

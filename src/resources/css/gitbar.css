@@ -1,4 +1,4 @@
-#gitbar{
+div#gitbar{
     font-family:"HelveticaNeue", sans-serif;
     font-size:13px;
     position:fixed;
@@ -11,20 +11,20 @@
     padding-left:35px;
 }
 
-#gitbar .gitbar-current{
+div#gitbar div.gitbar-current{
     border-right:1px solid #ddd;
 }
 
-#gitbar .gitbar-branches{
+div#gitbar div.gitbar-branches{
     position:relative;
 }
 
-#gitbar .gitbar-current, #gitbar .gitbar-branches{
+div#gitbar div.gitbar-current, div#gitbar div.gitbar-branches{
     display:inline-block;
     padding:4px 5px;
 }
 
-#gitbar .gitbar-branches button{
+div#gitbar div.gitbar-branches button#checkout-branch{
     background-color:#f35955;
     color:#fff;
     font-weight:bold;
@@ -39,7 +39,7 @@
     height:100%;
 }
 
-#gitbar .gitbar-branches button .load{
+div#gitbar div.gitbar-branches button#checkout-branch div.load{
     position:absolute;
     width:10px;
     height:10px;
@@ -53,7 +53,7 @@
 }
 
 
-#gitbar .gitbar-current strong{
+div#gitbar div.gitbar-current strong{
     color:#f35955;
 }
 
