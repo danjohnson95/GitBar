@@ -1,0 +1,63 @@
+#gitbar{
+    font-family:"HelveticaNeue", sans-serif;
+    font-size:13px;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    background-color:#f5f5f5;
+    border-top:1px solid #ddd;
+    z-index:1000;
+    padding-left:35px;
+}
+
+#gitbar .gitbar-current{
+    border-right:1px solid #ddd;
+}
+
+#gitbar .gitbar-branches{
+    position:relative;
+}
+
+#gitbar .gitbar-current, #gitbar .gitbar-branches{
+    display:inline-block;
+    padding:4px 5px;
+}
+
+#gitbar .gitbar-branches button{
+    background-color:#f35955;
+    color:#fff;
+    font-weight:bold;
+    position:absolute;
+    top:-1px;
+    right:-65px;
+    margin:0;
+    padding:5px;
+    margin-left:5px;
+    border:0;
+    width:65px;
+    height:100%;
+}
+
+#gitbar .gitbar-branches button .load{
+    position:absolute;
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    border:2px solid transparent;
+    border-top-color:#fff;
+    border-left-color:#fff;
+    top:7px;
+    left:26px;
+    animation: loadingspinner 400ms linear infinite;
+}
+
+
+#gitbar .gitbar-current strong{
+    color:#f35955;
+}
+
+@keyframes loadingspinner{
+    0% {transform:rotate(0deg)}
+    100% {transform:rotate(360deg)}
+}
