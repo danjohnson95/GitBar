@@ -35,7 +35,6 @@ function gitbarGetBranches(){
 		gitbarBtn = gitbarOuter.querySelector('button');
 
 	gitbarXhr.open('GET', gitbarGetRoute);
-	gitbarXhr.send(null);
 
 	gitbarXhr.onreadystatechange = function () {
 		if (gitbarXhr.readyState === 4) {
@@ -59,12 +58,26 @@ function gitbarGetBranches(){
     	}
 	}
 
+	gitbarXhr.send(null);
+
 }
 
 function gitbarCheckoutBranch(){
-	var gitbarCheckoutRoute = document.head.querySelector("[name='gitbar-checkout-route']").content;
+	var gitbarCheckoutRoute = document.head.querySelector("[name='gitbar-checkout-route']").content,
+		gitbarSelect = document.querySelector('#gitbar select'),
+		selectedBranch = gitbarSelect.selectedOptions[0].text,
+		gitbarXhr = new XMLHttpRequest();
 
-	var gitbarXhr = new XMLHttpRequest();
-	gitbarXhr.open('GET', gitbarCheckoutRoute);
+	gitbarXhr.open('GET', gitbarCheckoutRoute+"/"+selectedBranch);
+	
+	//TODO: Add an overlay over the content so the page can't be used while switching branches.
+
+	gitbarXhr.onreadystatechange = function(){
+		if(gitbarXhr.readyState === 4){
+			if(gitbarXhr.status === 200){
+				location.href = location.href;
+			}
+		}
+	}
 	gitbarXhr.send(null);
 }

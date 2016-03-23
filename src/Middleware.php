@@ -35,8 +35,8 @@ class Middleware{
 		$jsModified = $this->lastModified("js");
 
 		$html = "<meta name='gitbar-get-route' content='".route('gitbar.branches')."'>";
-		$html.= "<meta name='gitbar-checkout-route' content='".route('gitbar.checkout')."'>";
-		
+		$html.= "<meta name='gitbar-checkout-route' content='".route('gitbar.checkout', ['branch' => null])."'>";
+
 		$html .= sprintf(
             '<link rel="stylesheet" type="text/css" href="%s?%s">' . "\n",
             route('gitbar.css'),
