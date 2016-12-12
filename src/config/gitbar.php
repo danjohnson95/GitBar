@@ -3,7 +3,7 @@
 return array(
 
 
-    'enabled' => env('GITBAR_ENABLE', false),
+    'enabled' => env('APP_DEBUG', false),
 
     'route_prefix' => '',
 

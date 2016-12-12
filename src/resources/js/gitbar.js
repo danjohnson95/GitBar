@@ -1,38 +1,50 @@
+var gitbarGetRoute, gitbarHashRoute, gitbarBranchData, gitbarSelectHTML, gitbarOuter, gitbarSelect, gitbarCurrent, gitbarHash;
+
 document.addEventListener("DOMContentLoaded", function(event) {
 
-	var gitbarInjectHtml = '<div id="gitbar">' + 
-		 		'<div class="gitbar-current">' +
-		 			'Current Branch' +
-	 				'<strong>' +
-	 					'<span class="load"></span>' +
-	 				'</strong>' +
- 				'</div>' +
- 				'<div class="gitbar-branches">' +
- 					'Switch Branch' +
- 					'<select></select>' +
- 					'<button id="checkout-branch" onclick="gitbarCheckoutBranch()">' +
- 						'<div class="load"></div>' +
- 					'</button>' +
- 				'</div>' +
- 			'</div>';
+ 	var gitbarInjectHtml = '<div id="gitbar">' +
+					'<div class="gitbar-top">' +
+						'Gitbar' +
+					'</div>' +
+					'<table>' +
+						'<tr>' +
+							'<td>Current Branch</td>' +
+							'<td class="gitbar-current"><strong><div class="gitbar-load"></div></strong></td>' +
+						'</tr>' +
+						'<tr>' +
+							'<td>Last Commit</td>' +
+							'<td class="gitbar-hash"><strong><div class="gitbar-load"></div></strong><small></small></td>' +
+						'</tr>' +
+						'<tr>' +
+							'<td>Checkout</td>' +
+							'<td>' +
+								'<select></select>' +
+							'</td>' +
+						'</tr>' +
+					'</table>' +
+				'</div>';
+
 
 	document.body.innerHTML += gitbarInjectHtml;
 
+	gitbarGetRoute = document.head.querySelector("[name='gitbar-get-route']").content,
+	gitbarHashRoute = document.head.querySelector("[name='gitbar-hash-route']").content,
+	gitbarBranchData = null,
+	gitbarSelectHTML = "",
+	gitbarOuter = document.querySelector('#gitbar'),
+	gitbarSelect = gitbarOuter.querySelector('select'),
+	gitbarCurrent = gitbarOuter.querySelector('.gitbar-current strong');
+	gitbarHash = gitbarOuter.querySelector('.gitbar-hash strong');
+
 	gitbarGetBranches();
+	gitbarGetLatestCommitHash();
 
 });
 
 function gitbarGetBranches(){
-	console.log('yo');
-	var gitbarGetRoute = document.head.querySelector("[name='gitbar-get-route']").content;
+	
 
-	var gitbarXhr = new XMLHttpRequest(),
-		gitbarBranchData = null,
-		gitbarSelectHTML = "",
-		gitbarOuter = document.querySelector('#gitbar'),
-		gitbarSelect = gitbarOuter.querySelector('select'),
-		gitbarCurrent = gitbarOuter.querySelector('.gitbar-current strong'),
-		gitbarBtn = gitbarOuter.querySelector('button');
+	var gitbarXhr = new XMLHttpRequest();
 
 	gitbarXhr.open('GET', gitbarGetRoute);
 
@@ -49,16 +61,28 @@ function gitbarGetBranches(){
 		    		if(gitbarBranchData[i].Current){
 		    			gitbarCurrent.innerHTML = gitbarBranchData[i].Name;
 		    		}
-
 		    	}
-
-		    	gitbarBtn.innerHTML = "Checkout";
-
 		    }
     	}
 	}
 
 	gitbarXhr.send(null);
+
+}
+
+function gitbarGetLatestCommitHash(){
+	var hashXhr = new XMLHttpRequest();
+
+	hashXhr.open('GET', gitbarHashRoute);
+	
+	hashXhr.onreadystatechange = function(){
+		if(hashXhr.readyState === 4){
+			if(hashXhr.status === 200){
+				gitbarHash.innerHTML = hashXhr.responseText;
+			}
+		}
+	}
+	hashXhr.send(null);
 
 }
 

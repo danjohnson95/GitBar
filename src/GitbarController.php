@@ -61,10 +61,12 @@ class GitbarController extends Controller{
 
 	}
 
-
-
 	public function checkout($branch){
 
+	}
+
+	public function hash(){
+		return [$this->runCommand("git log --pretty=format:'%h' -n 1")];
 	}
 
 	public function outputBar(){

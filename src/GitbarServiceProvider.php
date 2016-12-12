@@ -1,19 +1,22 @@
-<?
+<?php 
 
 namespace Danj\Gitbar;
 
-class GitbarServiceProvider extends \Illuminate\Support\ServiceProvider{
+use Illuminate\Support\ServiceProvider;
+
+class GitbarServiceProvider extends ServiceProvider{
 
 	public function register(){
-		
+
 	}
-	
+
 	public function boot(){
 
-		$this->mergeConfigFrom(__DIR__.'/../config/gitbar.php', 'gitbar');
+		$this->mergeConfigFrom(__DIR__.'/config/gitbar.php', 'gitbar');
 
 		$this->publishes([
-			__DIR__.'/resources' => public_path('vendor/danj/gitbar')
+			__DIR__.'/resources' => public_path('vendor/danj/gitbar'),
+			__DIR__.'/config' => config_path()
 		], 'gitbar');
 
 		$Config = $this->app['config'];
@@ -34,6 +37,8 @@ class GitbarServiceProvider extends \Illuminate\Support\ServiceProvider{
 
         $this->app['router']->group($routeConfig, function($router) {
             $router->get('branches', ['uses' => 'GitbarController@branches', 'as' => 'gitbar.branches']);
+            $router->get('hash', ['uses' => 'GitbarController@hash', 'as' => 'gitbar.hash']);
+            
             $router->post('checkout/{branch}', ['uses' => 'GitbarController@checkout', 'as' => 'gitbar.checkout']);
             $router->get('css', ['uses' => 'GitbarController@css', 'as' => 'gitbar.css']);
             $router->get('js', ['uses' => 'GitbarController@js', 'as' => 'gitbar.js']);
