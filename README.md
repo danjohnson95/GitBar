@@ -2,26 +2,25 @@
 Quickly and easily manage your git repository for your staging area
 
 ###Getting Started
-Getting GitBar installed on your existing Laravel application is easy. Just require this package in your `composer.json` file and then run a cheeky `composer update`
+Getting GitBar installed on your existing Laravel application is easy. Just run the following command in your project
 
 ```
-composer require gitbar
+$ composer require danj/gitbar
 ```
 
 After that, you'll need to include the following ServiceProvider to the `providers` array in your `config/app.php` file.
 
 ```
-'Danj\Gitbar\GitbarServiceProvider'
+Danj\Gitbar\GitbarServiceProvider::class
 ```
 
 Now run the following command to publish the vendor assets (CSS, JavaScript and config files)
 
 ```
-php artisan vendor:publish --provider="Danj\Gitbar"
+$ php artisan vendor:publish --provider="Danj\Gitbar"
 ```
 
-By default, GitBar is turned off.
-To enable it, just add this line to your `.env` file.
+By default, GitBar is enabled based on the `APP_DEBUG` variable. However you can override this behaviour by adding this line in your `.env` file
 
 ```
 GITBAR_ENABLE=true
