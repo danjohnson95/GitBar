@@ -1,6 +1,8 @@
 # GitBar
 Quickly and easily manage your git repository for your staging area
 
+![alt tag](https://danjohnson.xyz/img/gitbar.jpg)
+
 ###Getting Started
 Getting GitBar installed on your existing Laravel application is easy. Just run the following command in your project
 
