@@ -23,7 +23,7 @@ class GitbarServiceProvider extends ServiceProvider{
 
 		$this->app['router']->group($routeConfig, function($router) {
 			$router->get('branches', ['uses' => 'GitbarController@branches', 'as' => 'gitbar.branches']);
-			$router->post('checkout/{branch}', ['uses' => 'GitbarController@checkout', 'as' => 'gitbar.checkout']);
+			$router->post('checkout', ['uses' => 'GitbarController@checkout', 'as' => 'gitbar.checkout']);
 			$router->get('css', ['uses' => 'GitbarController@css', 'as' => 'gitbar.css']);
 			$router->get('js', ['uses' => 'GitbarController@js', 'as' => 'gitbar.js']);
 			$router->get('test', 'GitbarController@outputBar');
@@ -38,7 +38,7 @@ class GitbarServiceProvider extends ServiceProvider{
 
 	public function boot(){
 
-		$this->mergeConfigFrom(__DIR__.'/../config/gitbar.php', 'gitbar');
+		$this->mergeConfigFrom(__DIR__.'/config/gitbar.php', 'gitbar');
 
 		$this->publishes([
 			__DIR__.'/resources' => public_path('vendor/danj/gitbar')

@@ -33,7 +33,6 @@ class Middleware{
 		$jsModified = $this->lastModified("js");
 
 		$html = "<meta name='gitbar-get-route' content='".route('gitbar.branches')."'>";
-		$html.= "<meta name='gitbar-hash-route' content='".route('gitbar.hash')."'>";
 		$html.= "<meta name='gitbar-checkout-route' content='".route('gitbar.checkout', ['branch' => null])."'>";
 
 		$html .= sprintf(

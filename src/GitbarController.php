@@ -2,7 +2,8 @@
 
 use Illuminate\Routing\Controller,
 	Illuminate\Http\Response,
-	Config;
+	Config,
+	Request;
 
 class GitbarController extends Controller{
 
@@ -49,14 +50,33 @@ class GitbarController extends Controller{
 		return $out;
 	}
 
+
+
 	/**
 	 * Checks out the branch specified.
-	 * @param $branch string The branch name to checkout
 	 * @return array An array containing the branch name and commit hash
 	 */
-	public function checkout($branch){
+	public function checkout(){
+		$branch = Request::get('branch');
+		$cmd = `git checkout {$branch} 2>&1`;
+		if(substr($cmd, 0, 6) == "error:"){
+			$status = 500;
+			$arr = [
+				'success' => false,
+				'msg' => substr($cmd, 7)
+			];
+		}else{
+			$status = 200;
+			$arr = [
+				'success' => true
+			];
+		}
 
+		return new Response(
+			json_encode($arr), $status, ['Content-Type' => 'application/json']
+		);
 	}
+
 
 	/**
 	 * Returns a response containing the CSS file for GitBar
