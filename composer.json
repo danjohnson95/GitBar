@@ -3,7 +3,7 @@
     "description": "Quickly and easily manage your Git repository from your staging area",
     "keywords": ["gitbar","toolbar", "git"],
     "homepage": "https://github.com/danjohnson95/GitBar",
-    "version": "1.0.1",
+    "version": "1.1",
     "license": "MIT",
     "authors": [
         {

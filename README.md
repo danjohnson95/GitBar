@@ -3,7 +3,7 @@ Quickly and easily manage your git repository for your staging area
 
 ![alt tag](https://danjohnson.xyz/img/gitbar.jpg)
 
-###Getting Started
+### Getting Started
 Getting GitBar installed on your existing Laravel application is easy. Just run the following command in your project
 
 ```
@@ -16,24 +16,40 @@ After that, you'll need to include the following ServiceProvider to the `provide
 Danj\Gitbar\GitbarServiceProvider::class
 ```
 
-Now run the following command to publish the vendor assets (CSS, JavaScript and config files)
-
-```
-$ php artisan vendor:publish --provider="Danj\Gitbar"
-```
-
 By default, GitBar is enabled based on the `APP_DEBUG` variable. However you can override this behaviour by adding this line in your `.env` file
 
 ```
 GITBAR_ENABLE=true
 ```
 
-GitBar should **NEVER** be enabled on a production environment, so please make sure you only enable this on your local workstation and staging area.
+Please see below for further configurations.
 
-###Configuration
-GitBar uses some routes for grabbing branches and checking them out. The default URI is `/gitbar/~`, but if this conflicts with anything in your application, you can change the `route_prefix` in the config file. This is located in `config/gitbar.php`.
+> GitBar should **NEVER** be enabled on a production environment, so please make sure you only enable this on your local workstation and staging area.
 
-###And that's it!
+### Configuration
+GitBar can be configured for your needs. You can either publish the config file and edit this directly, or use .env variables.
+
+#### Publishing Config File
+
+```
+$ php artisan vendor:publish --provider="Danj\Gitbar"
+```
+
+A new file will be created in `/config/gitbar.php`. You can modify this directly.
+
+#### Using .env variables
+
+The following .env variables are available for GitBar:
+
+- GITBAR_ENABLE
+- GITBAR_PREFIX
+- GITBAR_BIN
+- GITBAR_REPO
+- GITBAR_SOURCE
+
+Please see the comments in the [config file](/src/config/gitbar.php) for more info about these.
+
+### And that's it!
 Issues and Pull Requests are welcome.
 
 If this package makes development easier for you or your team, donations are greatly appreciated! :beer:

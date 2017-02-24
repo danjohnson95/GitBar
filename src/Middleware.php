@@ -3,9 +3,8 @@
 use Closure,
 	Exception;
 
-
 class Middleware{
-	
+
 	public function handle($request, Closure $next){
 
 		try{
@@ -13,7 +12,6 @@ class Middleware{
 		} catch(Exception $e){
 			dd($e);
 		}
-
 
 		return $this->modifyResponse($request, $response);
 
@@ -28,7 +26,7 @@ class Middleware{
             		strpos($response->headers->get('Content-Type'), 'html') === false
         		)
         	|| $request->getRequestFormat() !== 'html'
-        
+
         ) return $response;
 
 		$cssModified = $this->lastModified("css");
@@ -51,7 +49,7 @@ class Middleware{
         );
 
 		$content = $response->getContent();
-		
+
 		$pos = strripos($content, '</head>');
 
         if (false !== $pos) {

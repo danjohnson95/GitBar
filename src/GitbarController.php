@@ -1,6 +1,4 @@
-<?php
-
-namespace Danj\Gitbar;
+<?php namespace Danj\Gitbar;
 
 use Illuminate\Routing\Controller,
 	Illuminate\Http\Response,
@@ -8,85 +6,62 @@ use Illuminate\Routing\Controller,
 
 class GitbarController extends Controller{
 
+	/**
+	 * Stores the path of the current repository
+	 * @var string
+	 */
 	private $repo 	= null;
+
+	/**
+	 * Stores the path of the Git executable
+	 * @var string
+	 */
 	private $bin 	= null;
 
+	/**
+	 * Starts a new instance of the Gitbar Controller,
+	 * gets config variables out and sets them in the
+	 * object.
+	 * @return void
+	 */
 	public function __construct(){
 		$this->repo = Config::get('gitbar.repo');
 		$this->bin 	= Config::get('gitbar.git_bin');
 	}
 
-	private function runCommand($command){
-
-		$descriptorspec = array(
-			1 => ['pipe', 'w'],
-			2 => ['pipe', 'w'],
-		);
-
-		$pipes = [];
-
-		$resource = proc_open($command, $descriptorspec, $pipes, $this->repo, []);
-		$stdout = stream_get_contents($pipes[1]);
-		$stderr = stream_get_contents($pipes[2]);
-
-		$status = trim(proc_close($resource));
-		if ($status) throw new Exception($stderr);
-		return $stdout;
-
-	}
-	
+	/**
+	 * Gets the branches for the current repo, as well as which one is currently
+	 * checked out and the latest commit hash for each branch.
+	 * @return array
+	 */
 	public function branches(){
-
-		$Branches = $this->runCommand('git branch');
-
-		$Branches = explode("\n", rtrim($Branches, "\n"));
-
-		$ReturnBranches = [];
-
-
-		foreach($Branches as $Branch){
-			
-			$Current = false;
-			
-			if(substr($Branch, 0, 1) == "*") $Current = true;
-
-			$ReturnBranches[] = [
-				"Name" => substr($Branch, 2),
-				"Current"	 => $Current
+		$cmd = `git branch -v`;
+		$out = [];
+		foreach(explode("\n", $cmd) as $line){
+			$branch = preg_split('/\s+/', $line);
+			if(!isset($branch[1])) continue;
+			$out[] = [
+				'selected' => $branch[0] ? true : false,
+				'name' => $branch[1],
+				'commit' => $branch[2]
 			];
-
 		}
-
-		return $ReturnBranches;
-
+		return $out;
 	}
 
+	/**
+	 * Checks out the branch specified.
+	 * @param $branch string The branch name to checkout
+	 * @return array An array containing the branch name and commit hash
+	 */
 	public function checkout($branch){
 
 	}
 
-	public function hash(){
-		return [$this->runCommand("git log --pretty=format:'%h' -n 1")];
-	}
-
-	public function outputBar(){
-
-		$Branches = $this->branches();
-
-		$CurrentBranch = null;
-		foreach($Branches as $Branch){
-			if($Branch['Current']){
-				$CurrentBranch = $Branch['Name'];
-				break;
-			}
-		}
-
-		return view('gitbar::main')->with([
-			'Branches'		=> $Branches,
-			'CurrentBranch' => $CurrentBranch
-		]);
-	}
-
+	/**
+	 * Returns a response containing the CSS file for GitBar
+	 * @return Response
+	 */
 	public function css(){
 		$content = file_get_contents(__DIR__.'/resources/css/gitbar.css');
 		return new Response(
@@ -94,6 +69,10 @@ class GitbarController extends Controller{
 		);
 	}
 
+	/**
+	 * Returns a response containing the JS file for GitBar
+	 * @return Response
+	 */
 	public function js(){
 		$content = file_get_contents(__DIR__.'/resources/js/gitbar.js');
 		return new Response(
